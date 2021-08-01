@@ -59,7 +59,7 @@ read_gff3 <- function(file, sources=NULL, types=NULL, infer_cds_parents=FALSE,
   # mRNA introns from exons
   mrna_exon_introns <- filter(x, type=="exon") %>%
     select(exon_id=feat_id, start, end, feat_id=parent_ids) %>%
-    unchop(feat_id) %>% group_by(feat_id) %>%
+    unchop(feat_id) %>% group_by(feat_id) %>% arrange(start) %>%
     summarize(introns = list(coords2introns(start, end)))
 
   # for mRNAs w/o exons: mrna_introns == cds_introns + length(five_prime_UTR)
